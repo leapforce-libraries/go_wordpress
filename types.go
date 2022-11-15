@@ -2,21 +2,27 @@ package wordpress
 
 import (
 	"fmt"
-
-	types "github.com/leapforce-libraries/go_types"
+	errortools "github.com/leapforce-libraries/go_errortools"
 )
 
 type Type struct {
-	ID    int    `json:"id"`
+	ID   int `json:"id"`
+	GUID struct {
+		Rendered string `json:"rendered"`
+	} `json:"guid"`
 	Slug  string `json:"slug"`
+	Link  string `json:"link"`
 	Title struct {
 		Rendered string `json:"rendered"`
 	} `json:"title"`
+	Content struct {
+		Rendered string `json:"rendered"`
+	} `json:"content"`
 }
 
-func (wp *WordPress) GetTypes(typeName string, typeID *int) (*[]Type, error) {
+func (wp *Service) GetTypes(typeName string, typeID *int) (*[]Type, *errortools.Error) {
 	if wp == nil {
-		return nil, &types.ErrorString{"WordPress pointer is nil"}
+		return nil, errortools.ErrorMessage("Service pointer is nil")
 	}
 
 	perPage := 100
@@ -29,12 +35,12 @@ func (wp *WordPress) GetTypes(typeName string, typeID *int) (*[]Type, error) {
 		urlString = fmt.Sprintf("%s/%v", urlString, *typeID)
 	}
 
-	for true {
+	for {
 		types_ := []Type{}
 
-		err := wp.Get(fmt.Sprintf("%s?per_page=%v&page=%v", urlString, perPage, page), &types_)
-		if err != nil {
-			return nil, err
+		e := wp.Get(fmt.Sprintf("%s?per_page=%v&page=%v", urlString, perPage, page), &types_)
+		if e != nil {
+			return nil, e
 		}
 
 		types = append(types, types_...)

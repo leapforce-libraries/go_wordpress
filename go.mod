@@ -1,10 +1,12 @@
 module github.com/leapforce-libraries/go_wordpress
 
-go 1.13
+go 1.18
+
+require github.com/leapforce-libraries/go_types v0.0.0-20220220161618-e9b1045c3ef2
 
 require (
-	github.com/leapforce-libraries/go_bigquerytools v0.0.0-20201102124458-f32e34afaa2e
-	github.com/leapforce-libraries/go_exactonline_new v0.0.0-20201102134042-a8673a1457ad
-	github.com/leapforce-libraries/go_oauth2 v0.0.0-20201102125125-86af93eef720
-	github.com/leapforce-libraries/go_types v0.0.0-20201101222114-6d3ec3839c8c
+	cloud.google.com/go v0.99.0 // indirect
+	github.com/getsentry/sentry-go v0.9.0 // indirect
+	github.com/gofrs/uuid v4.2.0+incompatible // indirect
+	github.com/leapforce-libraries/go_errortools v0.0.0-20211119145736-7b9b61c20618 // indirect
 )
